@@ -6,8 +6,10 @@
     <title>Skin Disease Classification</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet"> -->
 </head>
 <body>
     
@@ -16,58 +18,59 @@
     <!-- As a heading -->
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1" id="titlehead">Skin Disease Classification</span>
+        <span class="navbar-brand mb-0 h1" id="titlehead">🩺 SkinSavvy</span>
         
       </div>
     </nav>
-    
-    <div class="navbar-brand mb-0 h1" id="subheading">"Identify Skin Conditions Instantly and Accurately"</div>
-    <div class="description">
-        <h3>ABOUT THIS WEBSITE</h3>
-        <div id="big-box">
-            This website leverages the power of Deep Learning by using Convolutional Neural Networks (CNN's) and hence classifies a given image into either
-            of 8 skin diseases. I decided to learn CNN's by actual implementation, so I stumbled upon this dataset on Kaggle and thought to create a CNN and implement it using Flask. These skin diseases are:
-            <div class="lists">
-                <ul>
-                    <li>Cellulitis</li>
-                    <li>Impetigo</li>
-                </ul>
-                <ul>
-                    <li>Athlete-Foot</li>
-                    <li>Nail-Fungus</li>
-                </ul>
-                <ul>
-                    <li>Ringworm</li>
-                    <li>Cutaneous-larva-migrans</li>
-                </ul>
-                <ul>
-                    <li>Chickenpox</li>
-                    <li>Shingles</li>
-                </ul>
+    <div class="navbar-brand mb-0 h1" id="subheading">"Your AI-powered skin health companion, helps you in identifying Skin Conditions instantly and accurately"</div>
+    <div class="main-container">
+        <div class="description">
+            <h3>ABOUT THIS WEBSITE</h3>
+            <div id="big-box">
+                <p>Skin diseases are common yet complex, requiring early detection for effective treatment. Skin Disease Classification is an AI-powered web application designed to assist users in identifying and understanding skin conditions with ease.</p>
+                <p>Our website leverages advanced deep learning techniques, specifically the VGG-16 model with transfer learning, to accurately classify three major skin diseases based on uploaded images. By simply providing a skin lesion image, users receive an instant classification along with relevant information.</p> 
+                These skin diseases are:
+                <div class="lists">
+                    <ul>
+                        <li>Actinic</li>
+                        <li>Acne</li>
+                        <li>Melanoma</li>
+                    </ul>
+                </div>
             </div>
+            
+            
+
         </div>
-        
-        
+        <div class="content" >
+            <form action="/" method="post" enctype="multipart/form-data">
+                <div id="drop-area">
+                    <p>Paste your image here or click to upload</p>
+                    <input type="file" id="file-input" name="file" accept="image/*" required style="display: none;">
+                </div>
+                <button type="submit">DETECT</button>
+            </form>
 
+            <img id="preview" src="" alt="Image preview">
+
+            {% if prediction_name %}
+                <h2>Prediction: {{ prediction_name }}</h2>
+            {% endif %}
+            {% if confidence %}
+                <h2 style="color: navy;">Confidence: {{ confidence }}</h2>
+            {% endif %}
+            {% if error %}
+                <p>entered error</p>
+                <p style="color: red;">Error: {{ error }}</p>
+            {% endif %}
+        </div>
     </div>
-    <div class="content" >
-        <form action="/" method="post" enctype="multipart/form-data">
-            <div id="drop-area">
-                <p>Paste your image here or click to upload</p>
-                <input type="file" id="file-input" name="file" accept="image/*" required style="display: none;">
-            </div>
-            <button type="submit">DETECT</button>
-        </form>
-
-        <img id="preview" src="" alt="Image preview">
-
-        {% if prediction %}
-            <div class="result">
-                <h2>Prediction: {{ prediction }}</h2>
-            </div>
-        {% endif %}
+    <h2 id="recommend-title">Find Nearby Hospitals</h2>
+    <div class="hospital-map"></div>
+        <button id="recommend-btn">Recommend Nearby Hospitals</button>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
     </div>
-    <footer class="tech"> 
+    <!-- <footer class="tech"> 
         <p> TECHNOLOGIES USED:</p>
         <div id="tech-heading"></div>
             <div class="tech_stack">
@@ -75,6 +78,10 @@
                 <div>TensorFlow</div>
                 <div>Flask</div>
             </div>
+    </footer> -->
+    
+    <footer class="tech">
+        <p>© 2025 SkinSavvy. All rights reserved.</p>
     </footer>
         
    
